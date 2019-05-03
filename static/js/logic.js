@@ -1,7 +1,7 @@
 // Analysis of Data Jobs in the Market - Javascript
 
 // Job Site API/URL Variables
-var linkedinURL = ""
+var linkedinURL = "http://127.0.0.1:5000/jsonified"
 var indeedURL = ""
 var glassdoorURL = ""
 
@@ -57,55 +57,58 @@ var myMap = L.map("map", {
 L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
 
-// Radius Markers 
-// Define markerSize Function that Gives Each City a Different Radius Based on its Job Listings
-function markerSize(listings) {
-  return listings / 20;
-}
-// Loop Through the Cities Array & Create One Marker For Each City Object
-for (var i = 0; i < cities.length; i++) {
-  // Conditionals for Cities Job Listings
-  var color = "";
-  if (cities[i].listings > 200) {
-    color = "#C70039";
-  }
-  else if (cities[i].listings > 100) {
-    color = "#FF5733";
-  }
-  else if (cities[i].listings > 90) {
-    color = "#FFC300";
-  }
-  else {
-    color = "#DAF7A6";
-  }
-  // Add Circles to Map
-  L.circle(cities[i].location, {
-    fillOpacity: 0.75,
-    color: "white",
-    fillColor: color,
-    // Adjust Radius
-    radius: cities[i].listings * 1500
-  }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Job Listings: " + cities[i].listings + "</h3>").addTo(myMap);
-}
+// // Radius Markers 
+// // Define markerSize Function that Gives Each City a Different Radius Based on its Job Listings
+// function markerSize(listings) {
+//   return listings / 20;
+// }
+// // Loop Through the Cities Array & Create One Marker For Each City Object
+// for (var i = 0; i < cities.length; i++) {
+//   // Conditionals for Cities Job Listings
+//   var color = "";
+//   if (cities[i].listings > 200) {
+//     color = "#C70039";
+//   }
+//   else if (cities[i].listings > 100) {
+//     color = "#FF5733";
+//   }
+//   else if (cities[i].listings > 90) {
+//     color = "#FFC300";
+//   }
+//   else {
+//     color = "#DAF7A6";
+//   }
+//   // Add Circles to Map
+//   L.circle(cities[i].location, {
+//     fillOpacity: 0.75,
+//     color: "white",
+//     fillColor: color,
+//     // Adjust Radius
+//     radius: cities[i].listings * 1500
+//   }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Job Listings: " + cities[i].listings + "</h3>").addTo(myMap);
+// }
 
 
 // Cluster Markers
 // Retrieve LinkedIn Data with D3
-d3.json(linkedinURL, function(response) {
+d3.json(linkedinURL, function(response, resp) {
   // Create a New Cluster Marker Group
   var markers = L.markerClusterGroup();
+  console.log(linkedinURL);
+  console.log(response);
   // Loop Through Data
-  for (var i = 0; i < response.length; i++) {
+  for (var i = 0; i < response["features"].length; i++) {
     // Set the Data Location Property to a Variable
-    var cities = response[i].cities;
+    var company = response["features"][i].geometry;
     // Check for Location Property
-    if (cities) {
+    if (company) {
       // Add a New Marker to the Cluster Group & Bind a Pop-up
-      markers.addLayer(L.marker([cities.coordinates[1], cities.coordinates[0]])
-        .bindPopup(response[i].descriptor));
+      markers.addLayer(L.marker([company.coordinates[1], company.coordinates[0]])
+        .bindPopup(response["features"][i].companys));
     }
   }
   // Add Cluster Marker Layer to the Map
+  console.log("it works sort of");
   myMap.addLayer(markers);
 
 });
