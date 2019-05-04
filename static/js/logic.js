@@ -15,24 +15,16 @@ var lightMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png
   accessToken: API_KEY
 });
 
-var darkMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-  maxZoom: 18,
-  id: "mapbox.dark",
-  accessToken: API_KEY
-});
-
 // Create baseMaps Object to Hold Base Layers
 var baseMaps = {
   "Streets": streetsMap,
-  "Light": lightMap,
-  "Outdoors": darkMap
+  "Light": lightMap
 };
 
 // Create Map Object & Set Default Layers
 var myMap = L.map("map", {
-  center: [40.574236, -122.398989],
-  zoom: 5.5,
+  center: [37.7749295, -122.4194155],
+  zoom: 15.5,
   layers: [streetsMap]
 });
 
