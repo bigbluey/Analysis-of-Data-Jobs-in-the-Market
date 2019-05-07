@@ -24,7 +24,7 @@ var baseMaps = {
 // Create Map Object & Set Default Layers
 var myMap = L.map("map", {
   center: [37.7749295, -122.4194155],
-  zoom: 15.5,
+  zoom: 10,
   layers: [streetsMap]
 });
 
